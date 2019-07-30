@@ -9,6 +9,7 @@ exports.config = {
   ],
   
   onPrepare: function () {
+	// this will help run protractor in non-angular pages also 
     browser.ignoreSynchronization = true;
   },
 

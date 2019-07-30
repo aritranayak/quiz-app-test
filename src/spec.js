@@ -12,7 +12,7 @@ describe('First Page', function() {
 	  expect(heading.getText()).toEqual('Welcome to Wizarding World');
   });
   
-  it('should display the heading', function() {
+  it('should display the start button', function() {
 	  var startButton = element(by.id('js-start-button'));
 	  expect(startButton.getText()).toEqual('START');
   });
