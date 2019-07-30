@@ -41,32 +41,79 @@ b. configuration file
 
 ### Project specific setup that you need to repeat for every Protractor project
 
-The configuration file of protractor is called protractor.conf.js, and this is the root file of the protractor. 
+The configuration file of protractor is called `conf.js`, and this is the root file of the protractor. 
 
 ```
-
-
-// An example configuration file.
-
+// Tests for the Quiz App
 exports.config = {
-    directConnect: true,
+  directConnect: true,
 
-    // Capabilities to be passed to the webdriver instance.
-    capabilities: {
-        'browserName': 'chrome' //firefox,chrome
-    },
+  framework: 'jasmine2',
 
-    // Framework to use. Jasmine is recommended.
-    framework: 'jasmine',
-    // Spec patterns are relative to the current working directory when protractor is called.
-    specs: ['e2e/*spec.js'],
+  specs: [
+    'spec.js'
+  ],
+  
+  onPrepare: function () {
+	// this will help run protractor in non-angular pages also 
+    browser.ignoreSynchronization = true;
+  },
 
-    // Options to be passed to Jasmine.
-    jasmineNodeOpts: {
-        defaultTimeoutInterval: 100000
-    }
+  capabilities: {
+    'browserName': 'chrome'
+  },
 };
 
-
 ```
 
+Now, consider the root of your project folder is `quiz-app-test`. You create a folder called `src`, and you can keep the above `conf.js` file under the `src` folder.
+Now, you can create your `package.json` file inside your root folder, and ensure your configuration file is correctly referenced, like this:
+
+```
+{
+  "name": "quiz-app-test",
+  "version": "1.0.0",
+  "description": "Protractor test for testing Harry Potter Quiz App",
+  "main": "src/conf.js",
+  "scripts": {
+    "test": "node_modules/.bin/protractor src/conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aritranayak/quiz-app-test.git"
+  },
+  "keywords": [
+    "protractor",
+    "jasmine-framework"
+  ],
+  "author": "Aritra Nayak",
+  "license": "ISC",
+  "dependencies": {
+    "express": "~3.4.0",
+    "protractor": "5.4.2",
+    "mkdirp": "~0.3.5",
+    "q": "1.0.0",
+    "firefox-profile": "0.3.4"
+  },
+  "bugs": {
+    "url": "https://github.com/aritranayak/quiz-app-test/issues"
+  },
+  "homepage": "https://github.com/aritranayak/quiz-app-test#readme"
+}
+
+```
+Note the `"main": "src/conf.js"`, that tells your test project to find the conf file correctly.
+
+h4. Now will be a good time to run `npm install` from your root folder. This will install your `node_modules` directory as well as `protractor`, as they are mentioned in your dependencies.
+
+h4. Finally, tell `npm` how to run the test automation adding the below code snippet in your package.json file:
+
+```
+"scripts": {
+    "test": "node_modules/.bin/protractor src/conf.js"
+  }
+```
+
+So, everytime you run `npm test` from your project folder, your selenium server will start and protractor tests will run.
+
+## Running your first test
