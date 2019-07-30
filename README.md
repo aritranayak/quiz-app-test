@@ -117,3 +117,63 @@ h4. Finally, tell `npm` how to run the test automation adding the below code sni
 So, everytime you run `npm test` from your project folder, your selenium server will start and protractor tests will run.
 
 ## Running your first test
+
+Look back again in your `src/conf.js` file, and find the file that holds your tests
+```
+specs: [
+    'spec.js'
+  ],
+```
+
+So, you need to create a `spec.js` file in the same directory as `conf.js` file. Below are very basic tests, that you can add to get your UI test automation up and running:
+
+<spec.js>
+```
+describe('First Page', function() {
+  beforeEach(function() {
+    browser.get('https://anamika8.github.io/Harry-Potter-Quiz-App/');
+  });
+
+  it('should open the home page', function() {
+	  expect(browser.getTitle()).toContain("Harry Potter's quiz app");
+  });
+  
+  it('should display the heading', function() {
+	  var heading = element(by.id('heading'));
+	  expect(heading.getText()).toEqual('Welcome to Wizarding World');
+  });
+  
+  it('should display the start button', function() {
+	  var startButton = element(by.id('js-start-button'));
+	  expect(startButton.getText()).toEqual('START');
+  });
+  
+});
+
+```
+
+The above file holds three tests:
+1. Test that the Home page has a certain title
+2. Test that a certain element (detected by its id) in that home page, has a certain text
+3. Test that a button element (detected by its id) in that home page, has a certain text
+
+##### Trigger test
+Just run `npm test` from your project root. If everything works fine, you will see a chrome browser opening automatically and closing on its own. The console will have the below details, indicating tests' status
+
+```
+> quiz-app-test@1.0.0 test /Users/aritranayak/Documents/workspace/quiz-app-test
+> protractor src/conf.js
+
+[00:13:11] I/launcher - Running 1 instances of WebDriver
+[00:13:11] I/direct - Using ChromeDriver directly...
+Started
+...
+
+
+3 specs, 0 failures
+Finished in 1.314 seconds
+
+[00:13:14] I/launcher - 0 instance(s) of WebDriver still running
+[00:13:14] I/launcher - chrome #01 passed
+
+```
